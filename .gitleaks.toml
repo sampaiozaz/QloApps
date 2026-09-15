@@ -1,0 +1,11 @@
+title = "Gitleaks Security Scanner Rules"
+
+[[rules]]
+description = "Generic API Key or Secret Token"
+regex = '''(?i)(api_key|apikey|secret|password|auth_token)\s*[:=]\s*["'][A-Za-z0-9_~\-]{16,}["']'''
+tags = ["key", "generic", "secret"]
+
+[[rules]]
+description = "RSA/EC/PGP Private Key"
+regex = '''-----BEGIN (RSA|EC|PGP|OPENSSH) PRIVATE KEY-----'''
+tags = ["key", "private-key"]

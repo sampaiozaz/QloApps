@@ -1,0 +1,14 @@
+rules:
+  - id: php-no-raw-sql-concat
+    patterns:
+      - pattern: Db::getInstance()->executeS(...)
+    message: "Avoid raw SQL concatenation in QloApps PHP. Use ObjectModel or pSQL() / (int) escaping."
+    languages: [php]
+    severity: ERROR
+
+  - id: kotlin-no-pii-stdout-logging
+    patterns:
+      - pattern: println($X)
+    message: "Avoid using raw println for logging PII. Use Logback JSON structured logger with masking."
+    languages: [kotlin]
+    severity: WARNING
