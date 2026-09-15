@@ -3,6 +3,9 @@ plugins {
     kotlin("plugin.serialization") version "1.9.22"
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
     id("info.solidsoft.pitest") version "1.15.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.6"
+    id("com.diffplug.spotless") version "6.25.0"
+    id("org.jetbrains.dokka") version "1.9.20"
     application
 }
 
@@ -34,6 +37,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("io.kotest:kotest-property-jvm:5.9.1")
     testImplementation("com.code-intelligence:jazzer-junit:0.22.1")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
 }
 
 application {
@@ -70,4 +74,24 @@ configure<info.solidsoft.gradle.pitest.PitestPluginExtension> {
     outputFormats.set(listOf("XML", "HTML"))
     timestampedReports.set(false)
 }
+
+detekt {
+    buildUponDefaultConfig = true
+    allRules = false
+    source.setFrom("src/main/kotlin")
+    ignoreFailures = true
+}
+
+spotless {
+    kotlin {
+        target("src/**/*.kt")
+        ktlint("1.2.1").editorConfigOverride(
+            mapOf(
+                "max_line_length" to "off",
+                "disabled_rules" to "standard:no-wildcard-imports,no-wildcard-imports"
+            )
+        )
+    }
+}
+
 
